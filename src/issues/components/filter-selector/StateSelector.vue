@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import { useIssuesStore } from 'src/stores/issues';
 import { ref } from 'vue';
 
-const test = ref<string>('');
+const issuesStore = useIssuesStore();
 </script>
 <template>
   <q-btn-toggle
-    v-model="test"
+    v-model="issuesStore.state"
     push
     glossy
     toggle-color="primary"
