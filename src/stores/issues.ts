@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 
 export const useIssuesStore = defineStore('issues', () => {
   //TODO arreglar tipo de dato
@@ -14,8 +14,13 @@ export const useIssuesStore = defineStore('issues', () => {
     // Getters
 
     // Actions
-    toggleLable(labelName: string) {
-      throw new Error('No implementado');
+    toggleLabel(labelName: string) {
+      if (labels.value.includes(labelName)) {
+        labels.value = labels.value.filter((label) => label !== labelName);
+        return;
+      }
+      labels.value.push(labelName);
+      //throw new Error('No implementado');
     },
   };
 });
