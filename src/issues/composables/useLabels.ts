@@ -12,7 +12,7 @@ const getLabels = async (): Promise<Label[]> => {
 
 const useLabels = () => {
   const issuesStore = useIssuesStore();
-  const { labels } = storeToRefs(issuesStore);
+  const { labels: selectedLabels } = storeToRefs(issuesStore);
   const { data, isLoading, isError } = useQuery({
     queryKey: ['labels'],
     queryFn: getLabels,
@@ -24,7 +24,7 @@ const useLabels = () => {
     isError,
 
     // Getters
-    selectedLabels: labels,
+    selectedLabels: selectedLabels,
 
     //Methods
     toggleLabel: issuesStore.toggleLabel, // forma corta de hacer uso de funcion
