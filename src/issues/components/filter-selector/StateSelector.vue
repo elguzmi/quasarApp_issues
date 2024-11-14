@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useIssuesStore } from 'src/stores/issues';
-import { ref } from 'vue';
 
 const issuesStore = useIssuesStore();
 </script>
