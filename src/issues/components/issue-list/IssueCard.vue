@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import useIssue from 'src/issues/composables/useIssue';
 import { Issue, State } from 'src/issues/interfaces/issue';
 import { timeSince } from 'src/shared/helpers/time-since';
 import { toRef } from 'vue';
@@ -10,11 +11,14 @@ interface Props {
 const props = defineProps<Props>();
 const issue = toRef(props, 'issue'); // optional
 
+
+const {prefecthIssue} = useIssue(issue.value.number , { autoload : false })
+
 // PARA RENDERIZAR MARKDOWN SE VA A UTILZIAR UN PAQUETE DE 3ROS
 </script>
 
 <template>
-  <q-card class="text-black col-12 q-mb-md" flat bordered>
+  <q-card @mouseenter="prefecthIssue(issue.number)"  class="text-black col-12 q-mb-md" flat bordered >
     <q-item>
       <q-item-section avatar>
         <q-avatar>
