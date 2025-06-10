@@ -28,6 +28,16 @@ watch(props, () => {
   isDialogOpen.value = props.isOpen;
 })
 
+watch(issueMutation.isSuccess, (isSuccess) => {
+  if (isSuccess) {
+    title.value = '';
+    body.value = '';
+    label.value = [];
+    issueMutation.reset(); // Restablezco el estado original de los valores de ese query
+    emits('onClose');
+  }
+})
+
 </script>
 
 

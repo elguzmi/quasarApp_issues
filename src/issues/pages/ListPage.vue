@@ -47,7 +47,7 @@ const openDialog = () => {
     }
   ]" />
 
-  <NewIssueDialog :is-open="isOpen" v-if="labels" :labels="labels.map(label => label.name) || []"
+  <NewIssueDialog :is-open="isOpen" v-if="labels && isOpen" :labels="labels.map(label => label.name) || []"
     @on-close="isOpen = false" />
 
 

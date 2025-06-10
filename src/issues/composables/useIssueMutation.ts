@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 import { Issue } from '../interfaces/issue';
-import { useMutation } from '@tanstack/vue-query';
+import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { gitHubApi } from 'src/api/gitHubApi';
 
 interface Args {
@@ -18,9 +18,13 @@ const addIssue = async ({ title, body = '', labels = [] }: Args): Promise<Issue>
 
 export default function useIssueMutation() {
   // State
+  const queryClient = useQueryClient()
   const issueMutation = useMutation({
-    mutationFn: addIssue, onSuccess: () => {
-      console.log('Issue added');
+    mutationFn: addIssue, onSuccess: (issue) => {
+      queryClient.invalidateQueries({ queryKey: ['issues'], exact: false }) // Inhbailita cualquiera que tenga issues
+      queryClient.refetchQueries({ queryKey: ['issues'], exact: false }) // Recarga todos los queries
+      queryClient.setQueryData(['issue', issue.number], issue) // Alamcena en el cache para ya tenerlo instantaneamente
+
     }, onSettled: () => {
       // Cauando termina con error o success
       console.log('Issue added');
