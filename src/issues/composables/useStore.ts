@@ -1,13 +1,13 @@
-import { storeToRefs } from "pinia";
-import { useIssuesStore } from "src/stores/issues";
+import { storeToRefs } from 'pinia';
+import { useIssuesStore } from 'src/stores/issues';
 
 
 // MANTENER AISLADA LA DEPENDENCIA CON TERCEROS
-const useStore = ()=>{
+const useStore = () => {
 
   const issuesStore = useIssuesStore()
-  const { labels , state} = storeToRefs(issuesStore); // Desestructuracion reactiva
-   return {
+  const { labels, state } = storeToRefs(issuesStore); // Desestructuracion reactiva
+  return {
     //REACTIVE PROPERTIES
     labels,
     state
@@ -16,7 +16,7 @@ const useStore = ()=>{
 
 
     //METHODS
-   }
+  }
 }
 
 export default useStore;

@@ -3,8 +3,18 @@ import LoaderSpinner from 'src/shared/components/LoaderSpinner.vue';
 import FilterSelector from '../components/filter-selector/FilterSelector.vue';
 import IssueList from '../components/issue-list/IssueList.vue';
 import useIssues from '../composables/useIssues';
+import FloatingButtons from '../components/FloatingButtons.vue';
+import NewIssueDialog from '../components/NewIssueDialog.vue';
+import { ref } from 'vue';
+import useLabels from '../composables/useLabels';
 
 const { issuesQuery } = useIssues();
+const { data: labels } = useLabels();
+const isOpen = ref<boolean>(false); // para abrir y cerrar le modal
+
+const openDialog = () => {
+  isOpen.value = true;
+}
 </script>
 
 <template>
@@ -21,14 +31,26 @@ const { issuesQuery } = useIssues();
     </div>
     <div class="col-xs-12 col-md-8">
       <!--TODO: LOADER -->
-      <LoaderSpinner
-        color="secondary"
-        v-if="issuesQuery.isLoading.value"
-      ></LoaderSpinner>
+      <LoaderSpinner color="secondary" v-if="issuesQuery.isLoading.value"></LoaderSpinner>
 
       <IssueList v-else :issues="issuesQuery.data?.value || []" />
     </div>
   </div>
+
+  <!--FLOATING BOTTOMS-->
+  <FloatingButtons :buttons="[
+    {
+      icon: 'add',
+      color: 'primary',
+      size: 'sm',
+      action: openDialog
+    }
+  ]" />
+
+  <NewIssueDialog :is-open="isOpen" v-if="labels" :labels="labels.map(label => label.name) || []"
+    @on-close="isOpen = false" />
+
+
 </template>
 
 <style scoped></style>

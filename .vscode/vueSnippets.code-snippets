@@ -1,0 +1,80 @@
+{
+  "Vue Setup Component": {
+    "prefix": "vue-setup",
+    "body": [
+      "<script setup lang=\"ts\">",
+      "$1",
+      "</script>",
+      "",
+      "<template>",
+      "  <div>",
+      "    $2",
+      "  </div>",
+      "</template>",
+      "",
+      "<style scoped>",
+      "$3",
+      "</style>"
+    ],
+    "description": "Vue component with script setup"
+  },
+  "Floating Buttons": {
+    "prefix": "floating-buttons",
+    "body": [
+      "<FloatingButtons :buttons=\"[",
+      "  {",
+      "    icon: '$1',",
+      "    color: '$2',",
+      "    size: 'sm',",
+      "    action: $3",
+      "  }",
+      "]\" />"
+    ],
+    "description": "Add floating buttons component"
+  },
+  "Vue Composable": {
+    "prefix": "vue-composable",
+    "body": [
+      "import { ref, computed, watch } from 'vue';",
+      "",
+      "interface ${1:ComposableName}Options {",
+      "  $2",
+      "}",
+      "",
+      "export default function use${1:ComposableName}($3) {",
+      "  // State",
+      "  const state = ref($4);",
+      "",
+      "  // Computed",
+      "  const computed${1:ComposableName} = computed(() => {",
+      "    return $5;",
+      "  });",
+      "",
+      "  // Methods",
+      "  const handle${1:ComposableName} = () => {",
+      "    $6",
+      "  };",
+      "",
+      "  // Watchers",
+      "  watch(state, (newValue, oldValue) => {",
+      "    $7",
+      "  });",
+      "",
+      "  // Lifecycle",
+      "  onMounted(() => {",
+      "    $8",
+      "  });",
+      "",
+      "  return {",
+      "    // State",
+      "    state,",
+      "    // Computed",
+      "    computed${1:ComposableName},",
+      "    // Methods",
+      "    handle${1:ComposableName}",
+      "  };",
+      "}"
+    ],
+    "description": "Create a Vue 3 composable function with TypeScript"
+  }
+}

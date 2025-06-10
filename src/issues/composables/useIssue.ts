@@ -4,11 +4,11 @@ import { useQuery, useQueryClient } from '@tanstack/vue-query';
 //import { computed } from 'vue';
 
 
-const sleep = ():Promise<boolean>=>{
-  return new Promise(resolve=>{
-    setTimeout(()=>{
-        resolve(true)
-    },2000)
+const sleep = (): Promise<boolean> => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(true)
+    }, 2000)
   })
 }
 
@@ -30,18 +30,18 @@ interface Options {
   autoload?: boolean
 }
 
-const useIssue = (issueNumber: number ,  options?:Options) => {
+const useIssue = (issueNumber: number, options?: Options) => {
 
   const client = useQueryClient(); // toda la instancia de las peticiones , los queries
 
-  const {autoload = true} = options||{}
+  const { autoload = true } = options || {}
 
 
   const issueQuery = useQuery({
     queryKey: ['issue', issueNumber],
     queryFn: () => getIssue(issueNumber),
     staleTime: 1000 * 60,
-    enabled : autoload
+    enabled: autoload
   });
 
   // Si quiero que se ejecute cuando resuelva una, se coloca enabled , cuando enabled este en true se av a ejecutar, de lo contrario no se ejecuta
@@ -49,11 +49,17 @@ const useIssue = (issueNumber: number ,  options?:Options) => {
     queryKey: ['issue', issueNumber, 'comments'],
     queryFn: () => getComments(issueQuery.data.value?.number || 0),
     staleTime: 1000 * 15,
-    enabled : autoload
+    enabled: autoload
     //enabled: computed(() => !!issueQuery.data.value),
   });
 
-  const prefecthIssue = (issueNumber:number)=>{
+  const setIssueCacheData = (issue: Issue) => {
+    client.setQueryData(['issue', issue.number],
+      issue
+    )
+  }
+
+  const prefecthIssue = (issueNumber: number) => {
     client.prefetchQuery({
       queryKey: ['issue', issueNumber],
       queryFn: () => getIssue(issueNumber),
@@ -72,7 +78,8 @@ const useIssue = (issueNumber: number ,  options?:Options) => {
     issueCommentsQuery,
 
     //METHODS
-    prefecthIssue
+    prefecthIssue,
+    setIssueCacheData
   };
 };
 

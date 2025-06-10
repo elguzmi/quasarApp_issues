@@ -6,7 +6,6 @@ import { storeToRefs } from 'pinia';
 
 const getLabels = async (): Promise<Label[]> => {
   const { data } = await gitHubApi<Label[]>('/labels?per_page=100');
-  console.log(data);
   return data;
 };
 

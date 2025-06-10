@@ -12,13 +12,15 @@ const props = defineProps<Props>();
 const issue = toRef(props, 'issue'); // optional
 
 
-const {prefecthIssue} = useIssue(issue.value.number , { autoload : false })
+
+//PERMITE QUE NO SE CARGUE TODAS LAS PETICIONES, UNICAMENTE SE CARGAN LAS PETICIONES PERO NO SE LLAMAN
+const { prefecthIssue, setIssueCacheData } = useIssue(issue.value.number, { autoload: false })
 
 // PARA RENDERIZAR MARKDOWN SE VA A UTILZIAR UN PAQUETE DE 3ROS
 </script>
 
 <template>
-  <q-card @mouseenter="prefecthIssue(issue.number)"  class="text-black col-12 q-mb-md" flat bordered >
+  <q-card @mouseenter="setIssueCacheData(issue)" class="text-black col-12 q-mb-md" flat bordered>
     <q-item>
       <q-item-section avatar>
         <q-avatar>
@@ -32,8 +34,7 @@ const {prefecthIssue} = useIssue(issue.value.number , { autoload : false })
             issue.title
           }}</router-link>
         </q-item-label>
-        <q-item-label caption
-          >{{ timeSince(issue.created_at.toString()) }} ago
+        <q-item-label caption>{{ timeSince(issue.created_at.toString()) }} ago
         </q-item-label>
       </q-item-section>
 
@@ -43,12 +44,7 @@ const {prefecthIssue} = useIssue(issue.value.number , { autoload : false })
             <q-icon name="question_answer" />
             {{ issue.comments }}
           </q-item-label>
-          <q-chip
-            v-if="issue.state === State.Closed"
-            color="positive"
-            text-color="white"
-            icon="check"
-          >
+          <q-chip v-if="issue.state === State.Closed" color="positive" text-color="white" icon="check">
             Closed
           </q-chip>
           <q-chip v-else color="negative" text-color="white" icon="bug_report">
@@ -68,15 +64,9 @@ const {prefecthIssue} = useIssue(issue.value.number , { autoload : false })
 
     <q-item-section class="q-pa-xs q-gutter-xs">
       <div>
-        <q-chip
-          v-for="label of issue.labels"
-          :key="label.id"
-          :style="{
-            color: `#${label.color}`,
-          }"
-          outline
-          clickable
-        >
+        <q-chip v-for="label of issue.labels" :key="label.id" :style="{
+          color: `#${label.color}`,
+        }" outline clickable>
           {{ label.name }}
         </q-chip>
       </div>
